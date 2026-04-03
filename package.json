@@ -1,0 +1,22 @@
+{
+  "name": "convert-link",
+  "version": "1.0.0",
+  "description": "Static Open Graph redirect generator for GitHub Pages",
+  "main": "src/build.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "build": "node src/build.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "keywords": [
+    "github-pages",
+    "open-graph",
+    "redirect",
+    "shopee"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

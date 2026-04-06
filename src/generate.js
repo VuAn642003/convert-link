@@ -26,24 +26,25 @@ function buildPageUrl(siteUrl, slug) {
 
 function renderLinkPage(siteUrl, link) {
   const pageUrl = buildPageUrl(siteUrl, link.slug);
+  const finalTitle = String(link.title || '').trim() || link.slug;
+  const finalDescription = String(link.description || '').trim() || 'Xem chi tiet san pham';
 
   return `<!doctype html>
 <html lang="vi">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${escapeHtml(link.title)}</title>
-  <meta name="description" content="${escapeHtml(link.description)}">
+  <title>${escapeHtml(finalTitle)}</title>
+  <meta name="description" content="${escapeHtml(finalDescription)}">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="${escapeHtml(link.title)}">
-  <meta property="og:description" content="${escapeHtml(link.description)}">
+  <meta property="og:title" content="${escapeHtml(finalTitle)}">
+  <meta property="og:description" content="${escapeHtml(finalDescription)}">
   <meta property="og:image" content="${escapeHtml(link.image)}">
   <meta property="og:url" content="${escapeHtml(pageUrl)}">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="${escapeHtml(link.title)}">
-  <meta name="twitter:description" content="${escapeHtml(link.description)}">
+  <meta name="twitter:title" content="${escapeHtml(finalTitle)}">
+  <meta name="twitter:description" content="${escapeHtml(finalDescription)}">
   <meta name="twitter:image" content="${escapeHtml(link.image)}">
-  <meta http-equiv="refresh" content="0;url=${escapeHtml(link.targetUrl)}">
   <style>
     :root { color-scheme: light; }
     body {
@@ -75,7 +76,9 @@ function renderLinkPage(siteUrl, link) {
     <p><a href="${escapeHtml(link.targetUrl)}" rel="nofollow noopener">Mo link Shopee</a></p>
   </main>
   <script>
-    window.location.replace('${escapeJsString(link.targetUrl)}');
+    setTimeout(() => {
+      window.location.href = '${escapeJsString(link.targetUrl)}';
+    }, 1300);
   </script>
 </body>
 </html>

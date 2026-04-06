@@ -33,8 +33,33 @@ test('buildSite generates one HTML page per link with OGP tags and redirect', as
   assert.match(html, /<meta property="og:description" content="Mau ao phong gia tot">/);
   assert.match(html, /<meta property="og:image" content="https:\/\/example.com\/images\/ao-phong.jpg">/);
   assert.match(html, /<meta property="og:url" content="https:\/\/vuan642003.github.io\/convert-link\/sp-ao-1\/">/);
-  assert.match(html, /<meta http-equiv="refresh" content="0;url=https:\/\/shopee.vn\/product-1">/);
-  assert.match(html, /window.location.replace\('https:\/\/shopee.vn\/product-1'\)/);
+  assert.doesNotMatch(html, /http-equiv="refresh"/);
+  assert.match(html, /setTimeout\(\(\) => \{/);
+  assert.match(html, /window.location.href = 'https:\/\/shopee.vn\/product-1'/);
+});
+
+test('buildSite fills fallback og title and description when empty', async () => {
+  const tempRoot = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'convert-link-'));
+  const distDir = path.join(tempRoot, 'dist');
+
+  await buildSite({
+    siteUrl: 'https://vuan642003.github.io/convert-link',
+    outputDir: distDir,
+    links: [
+      {
+        slug: 'tuong-bat-ma',
+        title: '',
+        description: '',
+        image: 'https://example.com/images/tuong.jpg',
+        targetUrl: 'https://s.shopee.vn/AAD0BAKv8S',
+      },
+    ],
+  });
+
+  const html = await fs.promises.readFile(path.join(distDir, 'tuong-bat-ma', 'index.html'), 'utf8');
+
+  assert.match(html, /<meta property="og:title" content="tuong-bat-ma">/);
+  assert.match(html, /<meta property="og:description" content="Xem chi tiet san pham">/);
 });
 
 test('buildSite generates index page listing all available links', async () => {

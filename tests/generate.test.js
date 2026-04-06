@@ -34,7 +34,11 @@ test('buildSite generates one HTML page per link with OGP tags and redirect', as
   assert.match(html, /<meta property="og:image" content="https:\/\/example.com\/images\/ao-phong.jpg">/);
   assert.match(html, /<meta property="og:url" content="https:\/\/vuan642003.github.io\/convert-link\/sp-ao-1\/">/);
   assert.doesNotMatch(html, /http-equiv="refresh"/);
+  assert.match(html, /<div class="spinner" aria-hidden="true"><\/div>/);
+  assert.doesNotMatch(html, /<h1>/);
+  assert.doesNotMatch(html, /<p>/);
   assert.match(html, /setTimeout\(\(\) => \{/);
+  assert.match(html, /}, 180\);/);
   assert.match(html, /window.location.href = 'https:\/\/shopee.vn\/product-1'/);
 });
 

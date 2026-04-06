@@ -58,29 +58,38 @@ function renderLinkPage(siteUrl, link) {
       background: #f6f7fb;
       color: #111827;
     }
-    main {
-      width: min(560px, calc(100% - 32px));
-      padding: 24px;
-      border-radius: 16px;
-      background: #ffffff;
-      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
-      text-align: center;
+    .loader-wrap {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 12px 36px rgba(15, 23, 42, 0.12);
     }
-    a {
-      color: #2563eb;
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 3px solid #dbeafe;
+      border-top-color: #2563eb;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
     }
   </style>
 </head>
 <body>
-  <main>
-    <h1>Dang chuyen huong...</h1>
-    <p>Neu trinh duyet khong tu dong mo, hay bam vao link ben duoi.</p>
-    <p><a href="${escapeHtml(link.targetUrl)}" rel="nofollow noopener">Mo link Shopee</a></p>
-  </main>
+  <div class="loader-wrap" aria-label="Dang chuyen huong">
+    <div class="spinner" aria-hidden="true"></div>
+  </div>
   <script>
     setTimeout(() => {
       window.location.href = '${escapeJsString(link.targetUrl)}';
-    }, 1300);
+    }, 180);
   </script>
 </body>
 </html>

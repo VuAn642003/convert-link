@@ -50,6 +50,34 @@ npm run build
 
 File build nam trong thu muc `dist/`.
 
+## Form tao link nhanh
+
+Ban co the dung form local de them link ma khong can sua tay `links.json`.
+
+```bash
+npm run admin
+```
+
+Mo trinh duyet tai `http://localhost:8787`, nhap:
+
+- `slug`
+- `URL anh`
+- `targetUrl` (Shopee)
+- `title/description` (tuỳ chon)
+
+Sau khi submit:
+
+- form se tu cap nhat `links.json`
+- form se tu chay build lai `dist/`
+
+Cuoi cung ban chi can:
+
+```bash
+git add links.json src/ tests/ package*.json
+git commit -m "feat: add new redirect link"
+git push origin main
+```
+
 ## Deploy GitHub Pages
 
 1. Push code len repo `VuAn642003/convert-link`

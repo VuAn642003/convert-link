@@ -1,6 +1,8 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 
+const HIDDEN_OG_TEXT = '\u200B';
+
 function escapeHtml(value) {
   return String(value)
     .replace(/&/g, '&amp;')
@@ -26,8 +28,8 @@ function buildPageUrl(siteUrl, slug) {
 
 function renderLinkPage(siteUrl, link) {
   const pageUrl = buildPageUrl(siteUrl, link.slug);
-  const finalTitle = String(link.title || '').trim() || link.slug;
-  const finalDescription = String(link.description || '').trim() || 'Xem chi tiet san pham';
+  const finalTitle = String(link.title || '').trim() || HIDDEN_OG_TEXT;
+  const finalDescription = String(link.description || '').trim() || HIDDEN_OG_TEXT;
 
   return `<!doctype html>
 <html lang="vi">

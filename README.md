@@ -50,73 +50,33 @@ npm run build
 
 File build nam trong thu muc `dist/`.
 
-## Form tao link online (Cloudflare Worker + GitHub API)
+## Form tao link nhanh
 
-Form static nam tai: `https://vuan642003.github.io/convert-link/admin/`
-
-Form nay se goi Cloudflare Worker API. Worker giu secret va commit truc tiep vao `links.json`, sau do GitHub Actions tu deploy Pages.
-
-Huong dan day du tung buoc: `docs/cloudflare-worker-setup.md`
-
-### 1) Deploy Worker (free)
-
-Trong thu muc `worker/`:
-
-```bash
-npx wrangler login
-npx wrangler deploy
-```
-
-File cau hinh: `worker/wrangler.toml`
-
-### 2) Tao secrets cho Worker
-
-```bash
-cd worker
-npx wrangler secret put GITHUB_TOKEN
-npx wrangler secret put ADMIN_KEY
-```
-
-- `GITHUB_TOKEN`: Fine-grained PAT, cap quyen repo `VuAn642003/convert-link` voi `Contents: Read and write`
-- `ADMIN_KEY`: mat khau ban tu dat de bao ve form
-
-### 3) Kiem tra API
-
-```bash
-curl "https://<worker-subdomain>.workers.dev/health"
-```
-
-Ket qua mong doi:
-
-```json
-{"ok":true}
-```
-
-### 4) Dung form admin
-
-Mo: `https://vuan642003.github.io/convert-link/admin/`
-
-Nhap:
-
-- Worker API URL: `https://<worker-subdomain>.workers.dev/create-link`
-- Admin Key
-- `slug`, `image`, `targetUrl` (+ `title/description` tuy chon)
-
-Submit xong:
-
-- Worker commit vao `links.json`
-- GitHub Actions tu chay deploy
-- Form tra ve URL moi + link commit
-
-## Form tao link local (fallback)
-
-Neu ban muon chay local:
+Ban co the dung form local de them link ma khong can sua tay `links.json`.
 
 ```bash
 npm run admin
 ```
 
-Mo `http://localhost:8787`.
+Mo trinh duyet tai `http://localhost:8787`, nhap:
+
+- `slug`
+- `URL anh`
+- `targetUrl` (Shopee)
+- `title/description` (tuỳ chon)
+
+Sau khi submit:
+
+- form se tu cap nhat `links.json`
+- form se tu chay build lai `dist/`
+
+Cuoi cung ban chi can:
+
+```bash
+git add links.json src/ tests/ package*.json
+git commit -m "feat: add new redirect link"
+git push origin main
+```
 
 ## Deploy GitHub Pages
 

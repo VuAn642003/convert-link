@@ -1,0 +1,10 @@
+name = "convert-link-admin-api"
+main = "src/index.js"
+compatibility_date = "2026-04-06"
+
+[vars]
+GITHUB_OWNER = "VuAn642003"
+GITHUB_REPO = "convert-link"
+GITHUB_BRANCH = "main"
+SITE_URL = "https://vuan642003.github.io/convert-link"
+ALLOWED_ORIGIN = "https://vuan642003.github.io"

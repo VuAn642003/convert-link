@@ -102,6 +102,7 @@ function renderIndexPage(siteUrl, links) {
       const pageUrl = buildPageUrl(siteUrl, link.slug);
 
       return `<li class="link-item" data-copy-url="${escapeHtml(pageUrl)}">
+        <img class="link-thumb" src="${escapeHtml(link.image)}" alt="${escapeHtml(link.slug)}">
         <div class="link-meta">
           <p class="link-slug">/${escapeHtml(link.slug)}/</p>
           <p class="link-title">${escapeHtml(link.title)}</p>
@@ -166,8 +167,18 @@ function renderIndexPage(siteUrl, links) {
       padding: 14px;
       background: #f8fafc;
     }
+    .link-thumb {
+      width: 72px;
+      height: 72px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      flex: 0 0 auto;
+      background: #e2e8f0;
+    }
     .link-meta {
       min-width: 0;
+      flex: 1 1 auto;
     }
     .link-slug {
       margin: 0;
@@ -207,6 +218,10 @@ function renderIndexPage(siteUrl, links) {
       .link-item {
         flex-direction: column;
         align-items: stretch;
+      }
+      .link-thumb {
+        width: 100%;
+        height: 168px;
       }
       .copy-button {
         width: 100%;

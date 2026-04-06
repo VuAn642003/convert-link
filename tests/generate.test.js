@@ -98,6 +98,7 @@ test('buildSite generates index page listing all available links', async () => {
   assert.match(html, /https:\/\/vuan642003.github.io\/convert-link\/sp-ao-1\//);
   assert.match(html, /https:\/\/vuan642003.github.io\/convert-link\/sp-giay-2\//);
   assert.match(html, /data-copy-url="https:\/\/vuan642003.github.io\/convert-link\/sp-ao-1\/"/);
+  assert.match(html, /<img class="link-thumb" src="https:\/\/example.com\/images\/ao-phong.jpg" alt="sp-ao-1">/);
   assert.match(html, /<button type="button" class="copy-button">Copy URL<\/button>/);
   assert.match(html, /navigator\.clipboard\.writeText\(url\)/);
   assert.match(html, /button\.textContent = 'Copied!'/);

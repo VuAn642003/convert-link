@@ -9,7 +9,9 @@
   "scripts": {
     "admin": "node src/admin-server.js",
     "build": "node src/build.js",
-    "test": "node --test tests/*.test.js"
+    "test": "node --test tests/*.test.js",
+    "deploy": "wrangler deploy",
+    "preview": "wrangler dev"
   },
   "keywords": [
     "github-pages",
@@ -19,5 +21,8 @@
   ],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "devDependencies": {
+    "wrangler": "^4.80.0"
+  }
 }

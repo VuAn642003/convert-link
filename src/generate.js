@@ -87,7 +87,14 @@ function renderIndexPage(siteUrl, links) {
     .map((link) => {
       const pageUrl = buildPageUrl(siteUrl, link.slug);
 
-      return `<li><a href="${escapeHtml(pageUrl)}">${escapeHtml(link.slug)}</a> - ${escapeHtml(link.title)}</li>`;
+      return `<li class="link-item" data-copy-url="${escapeHtml(pageUrl)}">
+        <div class="link-meta">
+          <p class="link-slug">/${escapeHtml(link.slug)}/</p>
+          <p class="link-title">${escapeHtml(link.title)}</p>
+          <a class="link-url" href="${escapeHtml(pageUrl)}" target="_blank" rel="noopener">${escapeHtml(pageUrl)}</a>
+        </div>
+        <button type="button" class="copy-button">Copy URL</button>
+      </li>`;
     })
     .join('\n      ');
 
@@ -98,23 +105,98 @@ function renderIndexPage(siteUrl, links) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Convert Link</title>
   <style>
+    :root {
+      --bg: #f7fafc;
+      --panel: #ffffff;
+      --text: #172554;
+      --muted: #475569;
+      --accent: #0ea5e9;
+      --accent-strong: #0284c7;
+      --border: #e2e8f0;
+      --shadow: 0 18px 44px rgba(15, 23, 42, 0.08);
+      --radius: 16px;
+    }
     body {
       margin: 0;
       padding: 40px 16px;
-      font-family: Arial, sans-serif;
-      background: #f6f7fb;
-      color: #111827;
+      font-family: "Trebuchet MS", "Segoe UI", Tahoma, sans-serif;
+      background:
+        radial-gradient(circle at 0% 0%, #dbeafe 0%, transparent 40%),
+        radial-gradient(circle at 100% 100%, #cffafe 0%, transparent 36%),
+        var(--bg);
+      color: var(--text);
     }
     main {
       width: min(900px, 100%);
       margin: 0 auto;
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
+      background: var(--panel);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
     }
     ul {
-      padding-left: 20px;
+      padding-left: 0;
+      list-style: none;
+      margin: 24px 0 0;
+      display: grid;
+      gap: 12px;
+    }
+    .link-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      background: #f8fafc;
+    }
+    .link-meta {
+      min-width: 0;
+    }
+    .link-slug {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .link-title {
+      margin: 2px 0 8px;
+      font-weight: 700;
+    }
+    .link-url {
+      color: var(--accent-strong);
+      word-break: break-all;
+      text-decoration: none;
+    }
+    .link-url:hover {
+      text-decoration: underline;
+    }
+    .copy-button {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-weight: 700;
+      background: var(--accent);
+      color: #ffffff;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .copy-button:hover {
+      background: var(--accent-strong);
+    }
+    .copy-button:focus-visible {
+      outline: 3px solid #93c5fd;
+      outline-offset: 2px;
+    }
+    @media (max-width: 640px) {
+      .link-item {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .copy-button {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -126,6 +208,37 @@ function renderIndexPage(siteUrl, links) {
       ${items}
     </ul>
   </main>
+  <script>
+    const items = document.querySelectorAll('[data-copy-url]');
+    items.forEach((item) => {
+      const button = item.querySelector('.copy-button');
+      if (!button) {
+        return;
+      }
+
+      button.addEventListener('click', async () => {
+        const url = item.getAttribute('data-copy-url');
+        if (!url) {
+          return;
+        }
+
+        const defaultText = 'Copy URL';
+
+        try {
+          await navigator.clipboard.writeText(url);
+          button.textContent = 'Copied!';
+          setTimeout(() => {
+            button.textContent = defaultText;
+          }, 1200);
+        } catch {
+          button.textContent = 'Copy failed';
+          setTimeout(() => {
+            button.textContent = defaultText;
+          }, 1200);
+        }
+      });
+    });
+  </script>
 </body>
 </html>
 `;
